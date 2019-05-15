@@ -81,21 +81,26 @@ function addEmptyCells(from, to, fragment) {
 	console.log('_____________');
 }
 
-calendarRender('#calendar','.cal-nav__month');
-
-$('.switch-btn__prev').on('click', () => {
+const prevBtn = () => {
 	if(currentMonth === 0) {
 		currentYear -= 1;
 	}
 	currentMonth = currentMonth === 0 ? 11 : Math.abs(currentMonth - 1);
 	console.log('current month incide click',currentMonth);
 	calendarRender('#calendar','.cal-nav__month',currentYear,currentMonth);
-});
-$('.switch-btn__next').on('click', () => {
+};
+
+const nextBtn = () => {
 	if(currentMonth === 0) {
 		currentYear += 1;
 	}
 	currentMonth = currentMonth === 11 ? 0 : Math.abs(currentMonth + 1);
 	console.log('current month incide click',currentMonth);
 	calendarRender('#calendar','.cal-nav__month',currentYear,currentMonth);
-});
+};
+
+calendarRender('#calendar','.cal-nav__month');
+
+$('.switch-btn__prev').on('click', prevBtn);
+
+$('.switch-btn__next').on('click', nextBtn);

@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import Meeting from "./Meeting";
 
 export default class CalendarCell {
 	constructor(year = new Date().getFullYear(), month = new Date().getMonth(), day = new Date().getDate(), weekDay = new Date().getDay(),meetings = []) {
@@ -26,12 +27,21 @@ export default class CalendarCell {
 		return dayItem
 	}
 	
+	newMeentingModal(event) {
+		alert(`${this.year} ${this.month} ${this.day}`);
+		console.log(new Meeting('Gogi', new Date(this.year, this.month, this.day), 'no homo', 'lorem suka'));
+		new Meeting('Gogi',new Date(this.year, this.month, this.day),'no homo', 'lorem suka')
+	}
+	
 	create() {
 		const dayItem = $(`
 		<div class="calendar__item ${this.today ? 'calendar__today' : ''}">
 			<p class="day-num">${this.day}</p>
 		</div>
 		`);
+		
+		dayItem.on('click', this.newMeentingModal);
+		
 		if(this.meetings.length) {
 			this.meetings.forEach((mtng) => {
 				const mtngItem = $(`
