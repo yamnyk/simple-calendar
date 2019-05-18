@@ -20,37 +20,37 @@ export default class CalendarCell {
 	}
 	
 	createEmpty() {
-		const dayItem = $(`
+		return $(`
 		<div class="calendar__item">
 		</div>
-		`);
-		return dayItem
+		`)
 	}
 	
 	newMeentingModal(event) {
-		// console.log($(event.target).index()-7);
 		const meeting = new Meeting('Gogi',this,'no participants', 'lorem');
-		this.meetings.push(meeting);
-		console.log(this.meetings);
+		$(event.target).append(meeting.meetingForm)
+		// this.meetings.push(meeting);
 	}
 	
 	create() {
-		const dayItem = $(`
+		const dayNode = $(`
 		<div class="calendar__item ${this.today ? 'calendar__today' : ''}">
 			<p class="day-num">${this.day}</p>
 		</div>
 		`);
+		dayNode.data('curCell',this);
 		
-		dayItem.on('click', this.newMeentingModal);
+		dayNode.on('click', this.newMeentingModal);
 		
 		if(this.meetings.length) {
 			this.meetings.forEach((mtng) => {
 				const mtngItem = $(`
 				<p class="calendar__meeting">${mtng.name}</p>
 				`);
-				dayItem.append(mtngItem);
+				dayNode.append(mtngItem);
 			})
 		}
-		return dayItem;
+		
+		return dayNode;
 	}
 }

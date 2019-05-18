@@ -130,6 +130,7 @@ body {
   margin-bottom: 5rem;
 
   &__item {
+    position: relative;
     color: grey;
     padding: 1rem 0.5rem;
     box-sizing: border-box;
@@ -149,5 +150,6 @@ body {
 }
 
 .new-meeting {
-  position: fixed;
+  position: absolute;
+  left: 0;
 }
