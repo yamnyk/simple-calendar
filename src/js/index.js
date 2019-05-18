@@ -26,6 +26,8 @@ const weekDays = [
 	'Суббота'
 ];
 
+const currentCalendar = [];
+
 let currentYear = new Date().getFullYear();
 let currentMonth = new Date().getMonth();
 
@@ -43,7 +45,6 @@ const calendarRender = (root = '#calendar', header = '.cal-nav__month', year = n
 	const $fragment = $(document.createDocumentFragment());
 	createDaysHeaders($fragment);
 	
-	console.log('fwdf',firstWeekDay);
 	if(firstWeekDay !== 0) {
 		addEmptyCells(1, firstWeekDay, $fragment);
 	} else if(firstWeekDay === 1) {
@@ -53,7 +54,9 @@ const calendarRender = (root = '#calendar', header = '.cal-nav__month', year = n
 	}
 	
 	for (let i = 1; i <= daysInMonth; i++) {
-		$fragment.append(new CalendarCell(year, month, i).create())
+		const calendarCell = new CalendarCell(year, month, i);
+		currentCalendar.push(calendarCell);
+		$fragment.append(calendarCell.create())
 	}
 	
 	if(lastWeekDay !== 7 && lastWeekDay !== 0) {
@@ -75,10 +78,8 @@ function createDaysHeaders(root) {
 
 function addEmptyCells(from, to, fragment) {
 	for (let i = from; i < to; i++) {
-		console.log(i);
 		fragment.append(new CalendarCell().createEmpty());
 	}
-	console.log('_____________');
 }
 
 const prevBtn = () => {
@@ -86,7 +87,6 @@ const prevBtn = () => {
 		currentYear -= 1;
 	}
 	currentMonth = currentMonth === 0 ? 11 : Math.abs(currentMonth - 1);
-	console.log('current month incide click',currentMonth);
 	calendarRender('#calendar','.cal-nav__month',currentYear,currentMonth);
 };
 
@@ -95,12 +95,19 @@ const nextBtn = () => {
 		currentYear += 1;
 	}
 	currentMonth = currentMonth === 11 ? 0 : Math.abs(currentMonth + 1);
-	console.log('current month incide click',currentMonth);
 	calendarRender('#calendar','.cal-nav__month',currentYear,currentMonth);
 };
 
-calendarRender('#calendar','.cal-nav__month');
 
 $('.switch-btn__prev').on('click', prevBtn);
 
 $('.switch-btn__next').on('click', nextBtn);
+
+$('#today').on('click', () => {
+	calendarRender('#calendar','.cal-nav__month',new Date().getFullYear(),new Date().getMonth())
+});
+
+calendarRender('#calendar','.cal-nav__month');
+
+console.log(currentCalendar);
+

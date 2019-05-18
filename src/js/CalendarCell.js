@@ -28,9 +28,10 @@ export default class CalendarCell {
 	}
 	
 	newMeentingModal(event) {
-		alert(`${this.year} ${this.month} ${this.day}`);
-		console.log(new Meeting('Gogi', new Date(this.year, this.month, this.day), 'no homo', 'lorem suka'));
-		new Meeting('Gogi',new Date(this.year, this.month, this.day),'no homo', 'lorem suka')
+		// console.log($(event.target).index()-7);
+		const meeting = new Meeting('Gogi',this,'no participants', 'lorem');
+		this.meetings.push(meeting);
+		console.log(this.meetings);
 	}
 	
 	create() {
