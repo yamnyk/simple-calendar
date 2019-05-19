@@ -7,12 +7,6 @@ export default class Meeting {
 		this.participants = participants;
 		this.description = description;
 		
-		this.meetingForm = $(`<form class="new-meeting">
-			<input type="text" class="new-meeting__name" placeholder="New meeting">
-			<input type="text" class="new-meeting__participants" placeholder="participants">
-			<textarea  class="new-meeting__desc"></textarea>
-			<input type="submit" class="new-meeting__submit">
-		</form>`);
 		// this.addToStorage();
 	}
 	

@@ -37,7 +37,7 @@ export default class Calendar {
 			'Декабрь'
 		];
 		
-		this.meetings = localStorage.getItem('meetings') ? localStorage.getItem('meetings') : {};
+		this.meetings = localStorage.getItem('meetings') ? JSON.parse(localStorage.getItem('meetings')) : localStorage.setItem('meetings', []);
 		
 		this.calendar= [];
 		
@@ -45,7 +45,14 @@ export default class Calendar {
 		this.$nextBtn.on('click', $.proxy(this.nextBtn, this));
 		this.$todayBtn.on('click', $.proxy(this.goToday, this));
 		
-		// this.render()
+		this.$meetingForm = $(`<form class="new-meeting">
+			<span class="new-meeting__close">x</span>
+			<input type="text" class="new-meeting__input" placeholder="Название">
+			<input type="text" class="new-meeting__input" placeholder="Имена участников">
+			<textarea class="new-meeting__input new-meeting__desc" placeholder="Описание"></textarea>
+			<input type="submit" class="new-meeting__btn" value="Добавить">
+			<input type="reset" class="new-meeting__btn" value="Удалить">
+		</form>`);
 	}
 	
 	render() {
@@ -112,15 +119,19 @@ export default class Calendar {
 			month: month,
 			day: day
 		});
+		dayNode.data('$root', this.$root);
+		dayNode.data('$meetingForm', this.$meetingForm);
 		
-		dayNode.on('click', this.newMeentingModal);
+		dayNode.on('click', $.proxy(this.callMeetingModal, dayNode, event));
 		
 		if(this.meetings.length) {
-			this.meetings.forEach((mtng) => {
-				const mtngItem = $(`
+			Array.from(this.meetings).forEach((mtng) => {
+				if(mtng.date.year === year && mtng.date.month === month && mtng.date.day === day) {
+					const mtngItem = $(`
 				<p class="calendar__meeting">${mtng.name}</p>
 				`);
-				dayNode.append(mtngItem);
+					dayNode.append(mtngItem);
+				}
 			})
 		}
 		
@@ -155,4 +166,37 @@ export default class Calendar {
 		};
 		this.render()
 	}
+	
+	callMeetingModal() {
+		const $modalWin = this.data().$meetingForm;
+		
+		$modalWin.css('top', event.currentTarget.offsetTop);
+		$modalWin.css('left', event.currentTarget.offsetLeft - event.currentTarget.clientWidth - 200);
+		
+		$($modalWin.children()[0]).on('click', () => {
+			$modalWin.detach();
+		});
+		
+		$modalWin.on('submit', (e) => {
+			e.preventDefault();
+			const oldStorage = localStorage.getItem('meetings') ? JSON.parse(localStorage.getItem('meetings')) : [];
+			const newItem = {
+				date: this.data().date,
+				name: $modalWin.children()[1].value,
+				participants: $modalWin.children()[2].value,
+				description: $modalWin.children()[3].value
+			};
+			oldStorage.push(newItem);
+			console.log(JSON.stringify(oldStorage));
+			
+			localStorage.setItem('meetings',
+				JSON.stringify(oldStorage)
+			)
+			
+			window.location.reload()
+		});
+		
+		this.data().$root.append($modalWin);
+	}
+	
 }
