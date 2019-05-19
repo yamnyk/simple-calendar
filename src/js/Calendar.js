@@ -37,9 +37,10 @@ export default class Calendar {
 			'Декабрь'
 		];
 		
-		this.meetings = localStorage.getItem('meetings') ? JSON.parse(localStorage.getItem('meetings')) : localStorage.setItem('meetings', []);
-		
-		this.calendar= [];
+		if(!localStorage.getItem('meetings')) {
+			localStorage.setItem('meetings', [])
+		}
+		this.meetings = localStorage.getItem('meetings') ? JSON.parse(localStorage.getItem('meetings')) : [];
 		
 		this.$prevBtn.on('click', $.proxy(this.prevBtn,this));
 		this.$nextBtn.on('click', $.proxy(this.nextBtn, this));
@@ -135,8 +136,6 @@ export default class Calendar {
 			})
 		}
 		
-		this.calendar.push(dayNode);
-		
 		return dayNode;
 	}
 	
@@ -179,7 +178,8 @@ export default class Calendar {
 		
 		$modalWin.on('submit', (e) => {
 			e.preventDefault();
-			const oldStorage = localStorage.getItem('meetings') ? JSON.parse(localStorage.getItem('meetings')) : [];
+			let oldStorage = localStorage.getItem('meetings') ? JSON.parse(localStorage.getItem('meetings')) : [];
+			oldStorage = Array.from(oldStorage);
 			const newItem = {
 				date: this.data().date,
 				name: $modalWin.children()[1].value,
