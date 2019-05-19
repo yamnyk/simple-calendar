@@ -8,7 +8,7 @@
 
 #### What it can? 
 * Switching months around by `prev` or `next` buttons
-* Returning on today's month by 'today' button
+* Returning on today's month by `today` button
 * By clicking on a single day it shows the modal with fields to create new meeting
 * Saving meetings onti localStorage
 
