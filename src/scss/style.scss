@@ -11,6 +11,7 @@ body {
 .container {
   max-width: 128rem;
   margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .head {
@@ -71,7 +72,7 @@ body {
   }
 }
 .cal-nav {
-  width: 30%;
+  width: 40%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -192,5 +193,35 @@ body {
     resize: none;
     font-family: sans-serif;
     padding-top: 1rem;
+  }
+}
+
+@media screen and (max-width: 650px){
+  .calendar {
+    grid-auto-rows: 10rem;
+  }
+  .head {
+    &-panel {
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    &-wrapper {
+      padding-top: 4rem;
+    }
+  }
+  .buttons {
+    &-wrapper {
+      display: flex;
+      justify-content: space-between;
+      order: 2;
+      margin-top: 2rem;
+    }
+    &__item {
+      margin-left: 1rem;
+    }
+  }
+  .cal-nav {
+    width: 100%;
   }
 }

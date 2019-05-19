@@ -13,7 +13,17 @@ export default class Calendar {
 			day: new Date().getDate()
 		};
 		
-		this.weekDays = [
+			this.weekDays = window.innerWidth <= 650 ?
+			[
+				'Вс',
+				'Пн',
+				'Вт',
+				'Ср',
+				'Чт',
+				'Пт',
+				'Сб',
+			]
+			:[
 			'Воскресенье',
 			'Понедельник',
 			'Вторник',
@@ -91,13 +101,16 @@ export default class Calendar {
 	}
 	
 	createDaysHeaders() {
-		this.$root.append(`<div class="calendar__item">Понедельник</div>
-        <div class="calendar__item">Вторник</div>
-        <div class="calendar__item">Среда</div>
-        <div class="calendar__item">Четверг</div>
-        <div class="calendar__item">Пятница</div>
-        <div class="calendar__item">Суббота</div>
-        <div class="calendar__item">Воскресенье</div>`)
+		this.weekDays.forEach((elem) => {
+			this.$root.append(`<div class="calendar__item">${elem}</div>`)
+		});
+		// this.$root.append(`<div class="calendar__item">Понедельник</div>
+    //     <div class="calendar__item">Вторник</div>
+    //     <div class="calendar__item">Среда</div>
+    //     <div class="calendar__item">Четверг</div>
+    //     <div class="calendar__item">Пятница</div>
+    //     <div class="calendar__item">Суббота</div>
+    //     <div class="calendar__item">Воскресенье</div>`)
 	}
 	
 	addEmptyCells(from, to, fragment) {
