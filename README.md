@@ -1,4 +1,11 @@
 ## JS Calendar 
+#### Technology stack:
+* HTML5
+* CSS3, SCSS
+* jQuery
+* JavaScript ES-2015
+* Webpack 4
+
 #### What it can? 
 * Switching months around by `prev` or `next` buttons
 * Returning on today's month by 'today' button
