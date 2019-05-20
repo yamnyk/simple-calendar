@@ -15,3 +15,5 @@
 #### How to build the app
 * You basically need to run `npm run build` command to build the application and can open the `dist/index.html` in browser to watch the page
 * For developing mode run `npm run dev` it will gonna create the `dist` folder, but will be working with existing scripts and styles, watching them changes and refreshing the page opened in browser
+
+[Demo][https://yamnyk.github.io/simple-calendar/]
