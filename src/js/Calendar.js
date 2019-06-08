@@ -1,19 +1,20 @@
 import $ from 'jquery'
 
 export default class Calendar {
-	constructor(root='#calendar', header='.cal-nav__month', prevBtn = '.switch-btn__prev', nextBtn = '.switch-btn__next', todayBtn = '.cal-nav__today') {
+	constructor(root='#calendar', header='.cal-nav__month', prevBtn = '.switch-btn__prev', nextBtn = '.switch-btn__next', todayBtn = '.cal-nav__today', addMeetingBtn = '#addMeeting') {
 		this.$root = $(root);
 		this.$header = $(header);
 		this.$nextBtn = $(nextBtn);
 		this.$prevBtn = $(prevBtn);
 		this.$todayBtn = $(todayBtn);
+		this.addMeetingBtn = $(addMeetingBtn);
 		this.date = {
 			year: new Date().getFullYear(),
 			month: new Date().getMonth(),
 			day: new Date().getDate()
 		};
 		
-			this.weekDays = window.innerWidth <= 650 ?
+		this.weekDays = window.innerWidth <= 650 ?
 			[
 				'Вс',
 				'Пн',
@@ -52,7 +53,7 @@ export default class Calendar {
 		}
 		this.meetings = localStorage.getItem('meetings') ? JSON.parse(localStorage.getItem('meetings')) : [];
 		
-		this.$prevBtn.on('click', $.proxy(this.prevBtn,this));
+		this.$prevBtn.on('click', $.proxy(this.prevBtn, this));
 		this.$nextBtn.on('click', $.proxy(this.nextBtn, this));
 		this.$todayBtn.on('click', $.proxy(this.goToday, this));
 		
@@ -64,6 +65,13 @@ export default class Calendar {
 			<input type="submit" class="new-meeting__btn" value="Добавить">
 			<input type="reset" class="new-meeting__btn" value="Удалить">
 		</form>`);
+		
+		this.addMeetingBtn.data('date', this.date);
+		this.addMeetingBtn.data('$root', this.$root);
+		
+		this.addMeetingBtn.data('$meetingForm', this.$meetingForm);
+		
+		this.addMeetingBtn.on('click', $.proxy(this.callMeetingModal, this.addMeetingBtn));
 	}
 	
 	render() {
@@ -104,13 +112,6 @@ export default class Calendar {
 		this.weekDays.forEach((elem) => {
 			this.$root.append(`<div class="calendar__item">${elem}</div>`)
 		});
-		// this.$root.append(`<div class="calendar__item">Понедельник</div>
-    //     <div class="calendar__item">Вторник</div>
-    //     <div class="calendar__item">Среда</div>
-    //     <div class="calendar__item">Четверг</div>
-    //     <div class="calendar__item">Пятница</div>
-    //     <div class="calendar__item">Суббота</div>
-    //     <div class="calendar__item">Воскресенье</div>`)
 	}
 	
 	addEmptyCells(from, to, fragment) {
@@ -204,9 +205,9 @@ export default class Calendar {
 			
 			localStorage.setItem('meetings',
 				JSON.stringify(oldStorage)
-			)
+			);
 			
-			window.location.reload()
+			window.location.reload();
 		});
 		
 		this.data().$root.append($modalWin);
